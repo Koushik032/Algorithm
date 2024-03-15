@@ -1,11 +1,32 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define ll long long
-#define all(v) v.begin(),v.end()
 
-const int Max = 2e5+10;
-const int base = 331;
-const int Mod = 1e9+7;
+typedef long long ll;
+typedef vector<long long> vi;
+typedef vector<ll> vl;
+typedef pair<long long,long long> pii;
+
+#define endl '\n'
+#define PB push_back
+#define F first
+#define S second
+#define all(a) (a).begin(),(a).end()
+#define rall(a) (a).rbegin(),(a).rend()
+
+#define MOD 1000000007
+
+#define mem(a,b) memset(a, b, sizeof(a) )
+#define sqr(a) ((a) * (a))
+
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+
+ll gcd ( ll a, ll b ){    return __gcd ( a, b );}
+ll lcm ( ll a, ll b ){    return a * ( b / gcd ( a, b ) );}
+
+const long long Max = 2e6+10;
+const long long base = 331;
+const long long Mod = 1e9+7;
 
 ll pw[Max], Hash[Max];
 
@@ -27,14 +48,47 @@ ll SubStringHash(int l, int r){
     return ((Hash[r] - Hash[l-1]*pw[r-l+1]) %Mod + Mod) %Mod;
 }
 
-int main() {
-    pre_power();
+void solve(long long cs)
+{
+    string s, s1;
+    cin >> s >> s1;
+    get_hash(s1);
 
-    string s;
-    cin >> s;
+    if( s1.size() > s.size() )
+    {
+        cout << "Case " << cs << ": " << 0 << endl;
+        return;
+    }
+
+    long long sOfSize = SubStringHash(1, s1.size());
+    //cout << sOfSize << endl;
+
+    memset(Hash, 0, sizeof(Hash));
+    //long long s1OfSize = SubStringHash(1, s1.size());
     get_hash(s);
 
-    cout << SubStringHash(1, s.size()) << endl;
+    long long ans = 0;
+    //if( sOfSize == s1OfSize )ans++;
 
-    return 0;
+    for( long long i = s1.size(); i <= s.size(); i++ )
+    {
+        if( SubStringHash((i - s1.size() + 1),i ) == sOfSize )
+        {
+            ans++;
+        }
+    }
+    
+    cout << "Case " << cs << ": " << ans << endl;
 }
+int main()
+{
+    long long t = 1,cs = 0;
+    cin >> t;
+    pre_power();
+
+    while(t--)
+    {
+        solve(++cs);
+    }
+    return 0;
+} 
